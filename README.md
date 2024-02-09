@@ -1,7 +1,7 @@
 # ReDPad
 ReDPad is a light-weight text editor, inspired by Notepad
 
-![Missing Image](https://imgur.com/a/DeLX9IL)
+![Missing Image](https://i.imgur.com/e6SA2oZ.png)
 
 ## Features
 + Create New Documents: Start a new document to jot down your ideas
