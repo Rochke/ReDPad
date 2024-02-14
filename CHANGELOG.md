@@ -1,5 +1,9 @@
 # Changelog
 
-## Bug Fixes
+## V1.0.1
 
-+ Window Name Not Updating When Interacting With The Undo Stack
+### Bug Fixes
+
++ Window Name Not Updating When Interacting With The Undo-Stack
+
++ Zoom Display Not Responding Correctly With Shortcuts

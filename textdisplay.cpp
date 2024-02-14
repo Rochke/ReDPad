@@ -59,10 +59,10 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
         }
     //Ctrl++ (Zoom In)
     } else if (event->key() == Qt::Key_Plus && (event->modifiers() & Qt::ControlModifier)) {
-        zoomIn();
+        passedMainWindow->statusBarManager->zoomIn();
     //Ctrl+- (Zoom Out)
     } else if (event->key() == Qt::Key_Minus && (event->modifiers() & Qt::ControlModifier)) {
-        zoomOut();
+        passedMainWindow->statusBarManager->zoomOut();
     //Delete/Backspace
     } else if (event->key() == Qt::Key_Delete || event->key() == Qt::Key_Backspace) {
         QString text;
@@ -97,7 +97,7 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
     } else if (event->key() == Qt::Key_S && (event->modifiers() == Qt::ControlModifier)) {
         passedMainWindow->fileManager->saveClicked(passedMainWindow->fileName, textDisplay, this);
         qDebug() << "save";
-        // Save As
+    // Save As
     } else if (event->key() == Qt::Key_S && (event->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier))) {
         passedMainWindow->fileManager->saveAsClicked(passedMainWindow->fileName, textDisplay, this);
         qDebug() << "saveAs";
