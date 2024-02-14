@@ -2,7 +2,7 @@
 #include "undostackmanager.h"
 #include "mainwindow.h"
 
-MenuBar::MenuBar(QUndoStack *undoStack, MainWindow* passedMainWindow) : undoStack(undoStack), passedMainWindow(passedMainWindow) {}
+MenuBar::MenuBar(QUndoStack *undoStack, MainWindow *passedMainWindow) : undoStack(undoStack), passedMainWindow(passedMainWindow) {}
 
 void MenuBar::setupMenuBar() {
     menubar = new QMenuBar(passedMainWindow);
@@ -98,7 +98,7 @@ void MenuBar::connectMenuBar() {
         int position = passedMainWindow->getTextDisplay()->textCursor().position();
         cursor.removeSelectedText();
         UndoStackManager::OperationType opType = UndoStackManager::OperationType::Cut;
-        UndoStackManager* command = new UndoStackManager(passedMainWindow->getTextDisplay(), position, text, opType, true);
+        UndoStackManager* command = new UndoStackManager(passedMainWindow->getTextDisplay(), position, text, opType, true, passedMainWindow);
         undoStack->push(command);
         passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, passedMainWindow->getTextDisplay());
         passedMainWindow->statusBarManager->updateCount();
@@ -112,7 +112,7 @@ void MenuBar::connectMenuBar() {
         QString text = clipboard->text();
         int position = passedMainWindow->getTextDisplay()->textCursor().position();
         UndoStackManager::OperationType opType = UndoStackManager::OperationType::Paste;
-        UndoStackManager* command = new UndoStackManager(passedMainWindow->getTextDisplay(), position, text, opType);
+        UndoStackManager* command = new UndoStackManager(passedMainWindow->getTextDisplay(), position, text, opType, true, passedMainWindow);
         undoStack->push(command);
         passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, passedMainWindow->getTextDisplay());
         passedMainWindow->statusBarManager->updateCount();

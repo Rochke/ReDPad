@@ -33,7 +33,7 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
         cursor.removeSelectedText();
         opPerformed = true;
         opType = UndoStackManager::OperationType::Cut;
-        UndoStackManager *command = new UndoStackManager(textDisplay, position, text, opType, opPerformed);
+        UndoStackManager *command = new UndoStackManager(textDisplay, position, text, opType, opPerformed, passedMainWindow);
         undoStack->push(command);
     //Ctrl+V (Paste)
     } else if (event->key() == Qt::Key_V && (event->modifiers() & Qt::ControlModifier)) {
@@ -44,7 +44,7 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
         cursor.insertText(text);
         opPerformed = true;
         opType = UndoStackManager::OperationType::Paste;
-        command = new UndoStackManager(textDisplay, position, text, opType, opPerformed);
+        command = new UndoStackManager(textDisplay, position, text, opType, opPerformed, passedMainWindow);
         undoStack->push(command);
         qDebug() << "Pasted : " << text;
     //Ctrl+Z (Undo)
@@ -81,10 +81,9 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
         }
         opPerformed = true;
         opType = UndoStackManager::OperationType::Delete;
-        command = new UndoStackManager(textDisplay, position, text, opType, opPerformed);
+        command = new UndoStackManager(textDisplay, position, text, opType, opPerformed, passedMainWindow);
         undoStack->push(command);
 
-        passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, textDisplay);
         passedMainWindow->statusBarManager->updateCount();
 
         qDebug() << "Deleted : " << text;
@@ -113,16 +112,16 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
             int position = cursor.position() - typedText.length();
             opPerformed = true;
             opType = UndoStackManager::OperationType::Type;
-            UndoStackManager* command = new UndoStackManager(textDisplay, position, typedText, opType, opPerformed);
+            UndoStackManager* command = new UndoStackManager(textDisplay, position, typedText, opType, opPerformed, passedMainWindow);
             undoStack->push(command);
 
-            passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, textDisplay);
             passedMainWindow->statusBarManager->updateCount();
         }
         else {
             QTextEdit::keyPressEvent(event);
         }
     }
+    passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, textDisplay);
     event->accept();
 }
 

@@ -1,7 +1,8 @@
 #include "undostackmanager.h"
+#include "mainwindow.h"
 
-UndoStackManager::UndoStackManager(QTextEdit* textDisplay, int position, const QString& text, OperationType opType, bool opPerformed, QUndoCommand* parent)
-    : QUndoCommand(parent), textDisplay(textDisplay), position(position), text(text), opType(opType), opPerformed(opPerformed) {
+UndoStackManager::UndoStackManager(QTextEdit* textDisplay, int position, const QString& text, OperationType opType, bool opPerformed, MainWindow* passedMainWindow, QUndoCommand* parent)
+    : QUndoCommand(parent), passedMainWindow(passedMainWindow), textDisplay(textDisplay), position(position), text(text), opType(opType), opPerformed(opPerformed)  {
     switch(opType) {
         case OperationType::Paste :
             setText("Pasted");
@@ -21,26 +22,27 @@ UndoStackManager::UndoStackManager(QTextEdit* textDisplay, int position, const Q
 void UndoStackManager::undo() {
     QTextCursor cursor = textDisplay->textCursor();
     cursor.setPosition(position);
-        switch (opType) {
-        case OperationType::Delete:
-            cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
-            cursor.insertText(text);
-            break;
-        case OperationType::Paste:
-            qDebug() << "Paste (undo)";
-            cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
-            cursor.removeSelectedText();
-            break;
-        case OperationType::Cut:
-            qDebug() << "Cut (undo)";
-            cursor.insertText(text);
-            break;
-        case OperationType::Type:
-            qDebug() << "Type (undo)";
-            cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
-            cursor.removeSelectedText();
-            break;
-        }
+    switch (opType) {
+    case OperationType::Delete:
+        cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
+        cursor.insertText(text);
+        break;
+    case OperationType::Paste:
+        qDebug() << "Paste (undo)";
+        cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
+        cursor.removeSelectedText();
+        break;
+    case OperationType::Cut:
+        qDebug() << "Cut (undo)";
+        cursor.insertText(text);
+        break;
+    case OperationType::Type:
+        qDebug() << "Type (undo)";
+        cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
+        cursor.removeSelectedText();
+        break;
+    }
+    passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, textDisplay);
 }
 
 void UndoStackManager::redo() {
@@ -67,5 +69,6 @@ void UndoStackManager::redo() {
             break;
         }
     }
+    passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, textDisplay);
     opPerformed = false;
 }

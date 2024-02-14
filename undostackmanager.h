@@ -4,6 +4,8 @@
 #include <QUndoCommand>
 #include <QTextEdit>
 
+class MainWindow;
+
 class UndoStackManager : public QUndoCommand {
 public:
     enum class OperationType {
@@ -13,11 +15,12 @@ public:
         Delete
     };
 
-    UndoStackManager(QTextEdit* textDisplay, int position, const QString& text, OperationType opType, bool opPerformed = false, QUndoCommand* parent = nullptr);
+    UndoStackManager(QTextEdit* textDisplay, int position, const QString& text, OperationType opType, bool opPerformed, MainWindow* passedMainWindow, QUndoCommand* parent = nullptr);
 
     void undo() override;
     void redo() override;
 private:
+    MainWindow* passedMainWindow;
     QTextEdit* textDisplay;
     int position;
     QString text;

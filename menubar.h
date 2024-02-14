@@ -17,8 +17,8 @@ public:
 
     QMenuBar *menubar;
 private:
-    QUndoStack* undoStack;
-    MainWindow* passedMainWindow;
+    QUndoStack *undoStack;
+    MainWindow *passedMainWindow;
 
     QAction *newFile;
     QAction *openFile;
