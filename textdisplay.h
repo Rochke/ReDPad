@@ -26,11 +26,7 @@ public:
     void wheelEvent(QWheelEvent*) override;
 
     void setupTextDisplay();
-    void pressCtrlZ();
-    void pressCtrlY();
-    void pressCtrlX();
     void pressCtrlC();
-    void pressCtrlV();
     void pressCtrlA();
 };
 

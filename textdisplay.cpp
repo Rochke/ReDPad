@@ -23,10 +23,8 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
     bool opPerformed = false;
     //Ctrl+X (Cut)
     if (event->key() == Qt::Key_X && (event->modifiers() & Qt::ControlModifier)) {
-        qDebug() << "Cut";
         if (cursor.hasSelection()) {
             QString selectedText = cursor.selectedText();
-            qDebug() << "Selected text: " << selectedText;
         }
         QString text = cursor.selectedText();
         QApplication::clipboard()->setText(text);
@@ -46,7 +44,6 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
         opType = UndoStackManager::OperationType::Paste;
         command = new UndoStackManager(textDisplay, position, text, opType, opPerformed, passedMainWindow);
         undoStack->push(command);
-        qDebug() << "Pasted : " << text;
     //Ctrl+Z (Undo)
     } else if (event->key() == Qt::Key_Z && (event->modifiers() & Qt::ControlModifier)) {
         if (undoStack->canUndo()) {
@@ -85,8 +82,6 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
         undoStack->push(command);
 
         passedMainWindow->statusBarManager->updateCount();
-
-        qDebug() << "Deleted : " << text;
     //New File
     } else if (event->key() == Qt::Key_N && (event->modifiers() == Qt::ControlModifier)) {
         passedMainWindow->fileManager->newClicked(passedMainWindow->fileName, textDisplay, this);
@@ -96,18 +91,16 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
     //Save
     } else if (event->key() == Qt::Key_S && (event->modifiers() == Qt::ControlModifier)) {
         passedMainWindow->fileManager->saveClicked(passedMainWindow->fileName, textDisplay, this);
-        qDebug() << "save";
     // Save As
     } else if (event->key() == Qt::Key_S && (event->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier))) {
         passedMainWindow->fileManager->saveAsClicked(passedMainWindow->fileName, textDisplay, this);
-        qDebug() << "saveAs";
+    } else if (event->key() == Qt::Key_Tab) {
+        cursor.insertText(QString("    "));
     }
     //All Other Text
     else {
         QString typedText = event->text();
         if (!typedText.isEmpty()) {
-            qDebug() << "Typed : " << event->key();
-
             QTextEdit::keyPressEvent(event);
             int position = cursor.position() - typedText.length();
             opPerformed = true;
@@ -128,10 +121,8 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
 void TextDisplay::wheelEvent(QWheelEvent* event) {
     if(event->modifiers() & Qt::ControlModifier) {
         if(event->angleDelta().y() > 0) {
-            qDebug("Zoom In");
             passedMainWindow->statusBarManager->StatusBarManager::zoomIn();
         } else if (event->angleDelta().y() < 0) {
-            qDebug("Zoom Out");
             passedMainWindow->statusBarManager->StatusBarManager::zoomOut();
         }
     }
@@ -140,37 +131,9 @@ void TextDisplay::wheelEvent(QWheelEvent* event) {
     }
 }
 
-void TextDisplay::pressCtrlZ() {
-    QKeyEvent *pressEvent = new QKeyEvent(QEvent::KeyPress, Qt::Key_Z, Qt::ControlModifier);
-    QKeyEvent *releaseEvent = new QKeyEvent(QEvent::KeyRelease, Qt::Key_Z, Qt::ControlModifier);
-    QApplication::postEvent(QApplication::focusWidget(), pressEvent);
-    QApplication::postEvent(QApplication::focusWidget(), releaseEvent);
-}
-
-void TextDisplay::pressCtrlY() {
-    QKeyEvent *pressEvent = new QKeyEvent(QEvent::KeyPress, Qt::Key_Y, Qt::ControlModifier);
-    QKeyEvent *releaseEvent = new QKeyEvent(QEvent::KeyRelease, Qt::Key_Y, Qt::ControlModifier);
-    QApplication::postEvent(QApplication::focusWidget(), pressEvent);
-    QApplication::postEvent(QApplication::focusWidget(), releaseEvent);
-}
-
-void TextDisplay::pressCtrlX() {
-    QKeyEvent *pressEvent = new QKeyEvent(QEvent::KeyPress, Qt::Key_X, Qt::ControlModifier);
-    QKeyEvent *releaseEvent = new QKeyEvent(QEvent::KeyRelease, Qt::Key_X, Qt::ControlModifier);
-    QApplication::postEvent(QApplication::focusWidget(), pressEvent);
-    QApplication::postEvent(QApplication::focusWidget(), releaseEvent);
-}
-
 void TextDisplay::pressCtrlC() {
     QKeyEvent *pressEvent = new QKeyEvent(QEvent::KeyPress, Qt::Key_C, Qt::ControlModifier);
     QKeyEvent *releaseEvent = new QKeyEvent(QEvent::KeyRelease, Qt::Key_C, Qt::ControlModifier);
-    QApplication::postEvent(QApplication::focusWidget(), pressEvent);
-    QApplication::postEvent(QApplication::focusWidget(), releaseEvent);
-}
-
-void TextDisplay::pressCtrlV() {
-    QKeyEvent *pressEvent = new QKeyEvent(QEvent::KeyPress, Qt::Key_V, Qt::ControlModifier);
-    QKeyEvent *releaseEvent = new QKeyEvent(QEvent::KeyRelease, Qt::Key_V, Qt::ControlModifier);
     QApplication::postEvent(QApplication::focusWidget(), pressEvent);
     QApplication::postEvent(QApplication::focusWidget(), releaseEvent);
 }

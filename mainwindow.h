@@ -6,6 +6,7 @@
 #include "statusbarmanager.h"
 #include "textdisplay.h"
 #include "menubar.h"
+#include "searchmanager.h"
 #include <QMainWindow>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -35,6 +36,7 @@ public:
     QUndoStack *undoStack;
     QStatusBar *mainStatusBar;
     MenuBar *menubar;
+    SearchManager *searchManager;
     Error error;
 
     QString fileName;
@@ -52,7 +54,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QVBoxLayout *mainLayout;
-    QHBoxLayout *lineLayout;
+    QHBoxLayout *searchLayout;
     TextDisplay *textDisplay;
 
     void setupLayouts();

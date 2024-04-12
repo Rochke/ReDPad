@@ -16,7 +16,6 @@ public:
         errorBox.setWindowIcon(QIcon(":/ReDPad.ico"));
         errorBox.setStandardButtons(QMessageBox::Ok);
         errorBox.exec();
-        qDebug() << "Error: " << QString::fromStdString(input) << '\n';
         if(Status != OPENED) {
             exit(EXIT_FAILURE);
         }

@@ -91,7 +91,6 @@ void MenuBar::connectMenuBar() {
         passedMainWindow->statusBarManager->updateCount();
     });
     connect(cut, &QAction::triggered, this, [this]() {
-        qDebug() << "Cut";
         QTextCursor cursor = passedMainWindow->getTextDisplay()->textCursor();
         QString text = cursor.selectedText();
         QApplication::clipboard()->setText(text);
@@ -107,7 +106,6 @@ void MenuBar::connectMenuBar() {
         passedMainWindow->getTextDisplay()->pressCtrlC();
     });
     connect(paste, &QAction::triggered, this, [this]() {
-        qDebug() << "Paste";
         const QClipboard *clipboard = QApplication::clipboard();
         QString text = clipboard->text();
         int position = passedMainWindow->getTextDisplay()->textCursor().position();

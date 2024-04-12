@@ -13,6 +13,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     menubar.cpp \
+    searchmanager.cpp \
     statusbarmanager.cpp \
     textdisplay.cpp \
     undostackmanager.cpp
@@ -22,6 +23,7 @@ HEADERS += \
     filemanager.h \
     mainwindow.h \
     menubar.h \
+    searchmanager.h \
     statusbarmanager.h \
     textdisplay.h \
     undostackmanager.h

@@ -9,15 +9,16 @@ MainWindow::MainWindow(QWidget *parent)
     this->setMinimumSize(250, 100);
     fileManager = new FileManager(this, this);
     undoStack = new QUndoStack(this);
+    searchManager = new SearchManager();
     mainStatusBar = this->statusBar();
     menubar = new MenuBar(undoStack, this);
     textDisplay = new TextDisplay(this);
     textDisplay->setupTextDisplay();
     menubar->setupMenuBar();
-    setupLayouts();
-    fileManager->updateWindowName(fileName, textDisplay);
     statusBarManager = new StatusBarManager(this, textDisplay, this);
     statusBarManager->StatusBarManager::setupStatusBar();
+    setupLayouts();
+    fileManager->updateWindowName(fileName, textDisplay);
 }
 
 MainWindow::~MainWindow()
@@ -33,10 +34,12 @@ void MainWindow::setupLayouts() {
     mainLayout->setSpacing(0);
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(textDisplay);
-/*
-    lineLayout = new QHBoxLayout(centralWidget);
-    mainLayout->addLayout(lineLayout);
-    lineLayout->setSpacing(0);
-    lineLayout->setContentsMargins(0, 0, 0, 0);
-*/
+
+    searchLayout = new QHBoxLayout();
+    mainLayout->addLayout(searchLayout);
+    searchLayout->setSpacing(0);
+    searchLayout->setContentsMargins(0, 0, 0, 0);
+
+    searchManager->setStyleSheet("background-color: red");
+    searchLayout->addWidget(searchManager);
 }

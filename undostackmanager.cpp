@@ -28,16 +28,13 @@ void UndoStackManager::undo() {
         cursor.insertText(text);
         break;
     case OperationType::Paste:
-        qDebug() << "Paste (undo)";
         cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
         cursor.removeSelectedText();
         break;
     case OperationType::Cut:
-        qDebug() << "Cut (undo)";
         cursor.insertText(text);
         break;
     case OperationType::Type:
-        qDebug() << "Type (undo)";
         cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
         cursor.removeSelectedText();
         break;
@@ -55,11 +52,9 @@ void UndoStackManager::redo() {
             cursor.removeSelectedText();
             break;
         case OperationType::Paste:
-            qDebug() << "Pasted (redo) : " << text;
             cursor.insertText(text);
             break;
         case OperationType::Cut:
-            qDebug() << "Cut (redo)";
             cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.length());
             cursor.removeSelectedText();
             break;
