@@ -45,9 +45,9 @@ void MenuBar::setupMenuBar() {
     edit->addSeparator();
     //To-Do :
     find = edit->addAction("&Find");
-    find->setEnabled(false);
+    //find->setEnabled(false);
     goTo = edit->addAction("&Go To");
-    goTo->setEnabled(false);
+    //goTo->setEnabled(false);
     edit->addSeparator();
     markAll = edit->addAction("&Mark All");
     markAll->setShortcut(QKeySequence::SelectAll);
@@ -114,6 +114,9 @@ void MenuBar::connectMenuBar() {
         undoStack->push(command);
         passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, passedMainWindow->getTextDisplay());
         passedMainWindow->statusBarManager->updateCount();
+    });
+    connect(find, &QAction::triggered, this, [this]() {
+        passedMainWindow->searchManager->openFindWindow();
     });
     connect(markAll, &QAction::triggered, this, [this]() {
         passedMainWindow->getTextDisplay()->pressCtrlA();

@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setMinimumSize(250, 100);
     fileManager = new FileManager(this, this);
     undoStack = new QUndoStack(this);
-    searchManager = new SearchManager();
+    searchManager = new SearchManager(this, this);
     mainStatusBar = this->statusBar();
     menubar = new MenuBar(undoStack, this);
     textDisplay = new TextDisplay(this);
@@ -34,12 +34,8 @@ void MainWindow::setupLayouts() {
     mainLayout->setSpacing(0);
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(textDisplay);
-
-    searchLayout = new QHBoxLayout();
-    mainLayout->addLayout(searchLayout);
-    searchLayout->setSpacing(0);
-    searchLayout->setContentsMargins(0, 0, 0, 0);
-
-    searchManager->setStyleSheet("background-color: red");
-    searchLayout->addWidget(searchManager);
+    qDebug() << width() << ' ' << height() << '\n';
+    qDebug() << (width() - 200) / 2 << ' ' << (height() - 100) / 2 << '\n';
+    //searchManager->setParent(this);
+    //searchManager->setGeometry((width() - 200) / 2, (height() - 100) / 2, 200, 100);
 }

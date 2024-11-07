@@ -17,6 +17,7 @@
 #include <QClipboard>
 #include <QUndoStack>
 #include <cstdint>
+#include <QStackedWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -54,7 +55,6 @@ public:
 private:
     Ui::MainWindow *ui;
     QVBoxLayout *mainLayout;
-    QHBoxLayout *searchLayout;
     TextDisplay *textDisplay;
 
     void setupLayouts();
