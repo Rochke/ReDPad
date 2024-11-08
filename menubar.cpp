@@ -6,11 +6,10 @@ MenuBar::MenuBar(QUndoStack *undoStack, MainWindow *passedMainWindow) : undoStac
 
 void MenuBar::setupMenuBar() {
     menubar = new QMenuBar(passedMainWindow);
-    /*
     menubar->setStyleSheet("QMenuBar {"
                            "background-color: #3a3a3a; "
-                           "color: lightgrey; }");
-    */
+                           "color: lightgrey; }"
+                           "QMenu { color: white; }");
     QMenu *file = menubar->addMenu("&File");
     QMenu *edit = menubar->addMenu("&Edit");
     //File
