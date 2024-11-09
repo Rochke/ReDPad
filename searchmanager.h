@@ -16,15 +16,24 @@ class SearchManager : public QWidget
 public:
     SearchManager(QWidget*, MainWindow*);
 
-    void openFindWindow();
+    void openFind();
+
+    QHBoxLayout *searchLayout;
+    QVBoxLayout *searchButtonLayout;
 private:
     MainWindow *passedMainWindow;
-protected:
-    void paintEvent(QPaintEvent*) override;
+    QLineEdit *searchBar;
+    QPushButton *upButton;
+    QPushButton *downButton;
+    QLabel *findLabel;
 
-    void reposition();
+    bool findSetup = false;
+    bool findShown = false;
 
-    QWidget* findWindow = nullptr;
+    QSpacerItem* searchSpacerOne;
+    QSpacerItem* searchSpacerTwo;
+
+    void setupLayouts();
 };
 
 #endif // SEARCHMANAGER_H

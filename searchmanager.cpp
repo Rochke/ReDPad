@@ -3,52 +3,71 @@
 
 SearchManager::SearchManager(QWidget *parent, MainWindow *passedMainWindow) : passedMainWindow(passedMainWindow) {
     Q_UNUSED(parent);
+    searchLayout = new QHBoxLayout();
+    searchButtonLayout = new QVBoxLayout();
+    passedMainWindow->mainLayout->addLayout(searchLayout);
 }
 
-void SearchManager::paintEvent(QPaintEvent *event) {
-    Q_UNUSED(event);
+void SearchManager::setupLayouts() {
+    searchSpacerOne = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+    searchSpacerTwo = new QSpacerItem(10, 5, QSizePolicy::Minimum, QSizePolicy::Minimum);
+    searchLayout->addSpacerItem(searchSpacerOne);
+    searchLayout->addWidget(findLabel);
+    searchLayout->addWidget(searchBar);
+    searchLayout->addSpacerItem(searchSpacerTwo);
+
+    searchButtonLayout->addWidget(upButton);
+    searchButtonLayout->addWidget(downButton);
+    searchLayout->addLayout(searchButtonLayout);
 }
 
-void SearchManager::openFindWindow() {
-    if(findWindow) {
-        delete findWindow;
-        qDebug("if");
+void SearchManager::openFind() {
+    if (!findSetup) {
+        findLabel = new QLabel("Find: ", this);
+        searchBar = new QLineEdit(this);
+        upButton = new QPushButton("▲", this);
+        downButton = new QPushButton("▼", this);
+        searchBar->setMinimumSize(60, 30);
+        searchBar->setMaximumSize(180, 30);
+        upButton->setFixedSize(20, 20);
+        downButton->setFixedSize(20, 20);
+
+        upButton->setStyleSheet("QPushButton { font-size: 10px }");
+        downButton->setStyleSheet("QPushButton { font-size: 10px }");
+        setupLayouts();
+
+        findSetup = true;
+        findShown = true;
+
+        searchBar->setFocus();
+
+        return;
     }
 
-    findWindow = new QWidget;
-    findWindow->setWindowTitle("Find");
-    findWindow->setStyleSheet("background-color: #3a3a3a");
+    if (findShown) {
+        // Hide widgets and set spacer size to zero
+        findLabel->hide();
+        searchBar->hide();
+        upButton->hide();
+        downButton->hide();
 
-    QLabel *label = new QLabel("Find :", findWindow);
-    QLineEdit *lineEdit = new QLineEdit(findWindow);
-    QPushButton *okButton = new QPushButton("Ok", findWindow);
+        searchSpacerOne->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
+        searchSpacerTwo->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    QVBoxLayout *outerLayout = new QVBoxLayout;
-    QHBoxLayout *firstInnerLayout = new QHBoxLayout;
-    QHBoxLayout *secondInnerLayout = new QHBoxLayout;
-    firstInnerLayout->addWidget(label);
-    firstInnerLayout->addWidget(lineEdit);
-    secondInnerLayout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
-    secondInnerLayout->addWidget(okButton);
-    label->setStyleSheet("QLabel { color: white; }");
-    lineEdit->setStyleSheet("QLineEdit:focus { border: none white; outline: none; }");
-    lineEdit->setStyleSheet("QLineEdit { color: white; border: 1px solid white; outline: none; }");
-    okButton->setStyleSheet("QPushButton { color: white; }");
+        searchLayout->invalidate(); // Refresh the layout
+        findShown = false;
+    } else {
+        // Show widgets and restore original spacer sizes
+        searchSpacerOne->changeSize(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        searchSpacerTwo->changeSize(10, 5, QSizePolicy::Minimum, QSizePolicy::Minimum);
+        findLabel->show();
+        searchBar->show();
+        upButton->show();
+        downButton->show();
 
-    outerLayout->addLayout(firstInnerLayout);
-    outerLayout->addLayout(secondInnerLayout);
+        searchLayout->invalidate(); // Refresh the layout
+        findShown = true;
+    }
 
-    findWindow->setLayout(outerLayout);
-
-    lineEdit->setMinimumWidth(175);
-    findWindow->setFixedHeight(83);
-
-    findWindow->show();
-
-    connect(findWindow, &QWidget::destroyed, this, [this]() {
-        findWindow = nullptr;
-        qDebug("Reset findWindow()");
-    });
-
-    qDebug("openFindWindow()");
+    searchBar->setFocus();
 }

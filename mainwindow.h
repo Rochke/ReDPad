@@ -44,6 +44,8 @@ public:
     uint64_t lineCount;
     uint64_t charCount;
 
+    QVBoxLayout *mainLayout;
+
     TextDisplay *getTextDisplay() {
         return textDisplay;
     }
@@ -54,7 +56,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QVBoxLayout *mainLayout;
     TextDisplay *textDisplay;
 
     void setupLayouts();

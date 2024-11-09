@@ -116,7 +116,7 @@ void MenuBar::connectMenuBar() {
         passedMainWindow->statusBarManager->updateCount();
     });
     connect(find, &QAction::triggered, this, [this]() {
-        passedMainWindow->searchManager->openFindWindow();
+        passedMainWindow->searchManager->openFind();
     });
     connect(markAll, &QAction::triggered, this, [this]() {
         passedMainWindow->getTextDisplay()->pressCtrlA();

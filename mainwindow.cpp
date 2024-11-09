@@ -6,10 +6,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setMinimumSize(250, 100);
+    this->setMinimumSize(250, 200);
     fileManager = new FileManager(this, this);
     undoStack = new QUndoStack(this);
-    searchManager = new SearchManager(this, this);
     mainStatusBar = this->statusBar();
     menubar = new MenuBar(undoStack, this);
     textDisplay = new TextDisplay(this);
@@ -18,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     statusBarManager = new StatusBarManager(this, textDisplay, this);
     statusBarManager->StatusBarManager::setupStatusBar();
     setupLayouts();
+    searchManager = new SearchManager(this, this);
     fileManager->updateWindowName(fileName, textDisplay);
 }
 
@@ -36,6 +36,4 @@ void MainWindow::setupLayouts() {
     mainLayout->addWidget(textDisplay);
     qDebug() << width() << ' ' << height() << '\n';
     qDebug() << (width() - 200) / 2 << ' ' << (height() - 100) / 2 << '\n';
-    //searchManager->setParent(this);
-    //searchManager->setGeometry((width() - 200) / 2, (height() - 100) / 2, 200, 100);
 }
