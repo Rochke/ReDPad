@@ -21,6 +21,8 @@ void FileManager::newClicked(QString &fileName, QTextEdit *textDisplay, QWidget 
     passedMainWindow->undoStack->clear();
     updateWindowName(fileName, textDisplay);
     passedMainWindow->statusBarManager->resetZoom();
+
+    passedMainWindow->searchManager->search();
 }
 
 void FileManager::openClicked(QString &fileName, QTextEdit *textDisplay, QWidget *parent) {
@@ -42,6 +44,8 @@ void FileManager::openClicked(QString &fileName, QTextEdit *textDisplay, QWidget
     textDisplay->setPlainText(text);
     file.close();
     updateWindowName(fileName, textDisplay);
+
+    passedMainWindow->searchManager->search();
 }
 
 void FileManager::openFile(QString &filePath, QTextEdit *textDisplay) {
@@ -59,6 +63,8 @@ void FileManager::openFile(QString &filePath, QTextEdit *textDisplay) {
     file.close();
     updateWindowName(filePath, textDisplay);
     passedMainWindow->fileName = filePath;
+
+    passedMainWindow->searchManager->search();
 }
 
 void FileManager::saveAsClicked(QString &fileName, QTextEdit *textDisplay, QWidget *parent) {

@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     statusBarManager->StatusBarManager::setupStatusBar();
     setupLayouts();
     searchManager = new SearchManager(this, this);
+    searchManager->search();
     fileManager->updateWindowName(fileName, textDisplay);
 }
 
