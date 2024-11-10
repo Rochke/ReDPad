@@ -10,7 +10,7 @@ SearchManager::SearchManager(QWidget *parent, MainWindow *passedMainWindow) : pa
 }
 
 void SearchManager::goTo() {
-    if(goToLineEdit->displayText().toInt() > passedMainWindow->totalLineCount) {
+    if (static_cast<uint64_t>(goToLineEdit->displayText().toInt()) > passedMainWindow->totalLineCount) {
         QMessageBox::warning(this, "Error", "No lines past " + QString::number(passedMainWindow->totalLineCount));
         return;
     }
