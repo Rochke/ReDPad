@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     menubar->setupMenuBar();
     statusBarManager = new StatusBarManager(this, textDisplay, this);
     statusBarManager->StatusBarManager::setupStatusBar();
+    statusBarManager->updateTotalCount();
     setupLayouts();
     searchManager = new SearchManager(this, this);
     searchManager->search();
