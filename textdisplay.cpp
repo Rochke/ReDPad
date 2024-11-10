@@ -23,9 +23,6 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
     bool opPerformed = false;
     //Ctrl+X (Cut)
     if (event->key() == Qt::Key_X && (event->modifiers() & Qt::ControlModifier)) {
-        if (cursor.hasSelection()) {
-            QString selectedText = cursor.selectedText();
-        }
         QString text = cursor.selectedText();
         QApplication::clipboard()->setText(text);
         cursor.removeSelectedText();
@@ -91,9 +88,13 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
     //Save
     } else if (event->key() == Qt::Key_S && (event->modifiers() == Qt::ControlModifier)) {
         passedMainWindow->fileManager->saveClicked(passedMainWindow->fileName, textDisplay, this);
-    // Save As
+    //Save As
     } else if (event->key() == Qt::Key_S && (event->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier))) {
         passedMainWindow->fileManager->saveAsClicked(passedMainWindow->fileName, textDisplay, this);
+    //Find
+    } else if (event->key() == Qt::Key_F && (event->modifiers() == Qt::ControlModifier)) {
+        passedMainWindow->searchManager->openFind();
+    //Tab
     } else if (event->key() == Qt::Key_Tab) {
         cursor.insertText(QString("    "));
     }

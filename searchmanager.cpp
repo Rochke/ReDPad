@@ -23,7 +23,7 @@ void SearchManager::setupLayouts() {
 
 void SearchManager::openFind() {
     if (!findSetup) {
-        findLabel = new QLabel("Find: ", this);
+        findLabel = new QLabel("Find:   ", this);
         searchBar = new QLineEdit(this);
         upButton = new QPushButton("▲", this);
         downButton = new QPushButton("▼", this);
@@ -34,6 +34,19 @@ void SearchManager::openFind() {
 
         upButton->setStyleSheet("QPushButton { font-size: 10px }");
         downButton->setStyleSheet("QPushButton { font-size: 10px }");
+        searchBar->setStyleSheet(
+            "QLineEdit { "
+            "  border: 1px solid white; "
+            "  outline: none; "
+            "  border-radius: 8px; "
+            "  background-color: transparent; "
+            "} "
+            "QLineEdit:focus { "
+            "  border: 1px solid white; "
+            "  outline: none; "
+            "}"
+            );
+
         setupLayouts();
 
         findSetup = true;
@@ -45,7 +58,6 @@ void SearchManager::openFind() {
     }
 
     if (findShown) {
-        // Hide widgets and set spacer size to zero
         findLabel->hide();
         searchBar->hide();
         upButton->hide();
@@ -54,10 +66,9 @@ void SearchManager::openFind() {
         searchSpacerOne->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
         searchSpacerTwo->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-        searchLayout->invalidate(); // Refresh the layout
+        searchLayout->invalidate(); // Force repaint
         findShown = false;
     } else {
-        // Show widgets and restore original spacer sizes
         searchSpacerOne->changeSize(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
         searchSpacerTwo->changeSize(10, 5, QSizePolicy::Minimum, QSizePolicy::Minimum);
         findLabel->show();
@@ -65,9 +76,22 @@ void SearchManager::openFind() {
         upButton->show();
         downButton->show();
 
-        searchLayout->invalidate(); // Refresh the layout
+        searchLayout->invalidate(); // Force repaint
         findShown = true;
     }
 
     searchBar->setFocus();
+}
+
+bool SearchManager::eventFilter(QObject *watched, QEvent *event) {
+    if (watched == searchBar) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            if (keyEvent->key() == Qt::Key_F && keyEvent->modifiers() == Qt::ControlModifier) {
+                openFind();
+                return true;
+            }
+        }
+    }
+    return QObject::eventFilter(watched, event);
 }

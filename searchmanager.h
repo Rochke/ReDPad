@@ -8,6 +8,8 @@
 #include <QLayout>
 #include <QPushButton>
 #include <QSpacerItem>
+#include <QEvent>
+#include <QKeyEvent>
 
 class MainWindow;
 
@@ -34,6 +36,8 @@ private:
     QSpacerItem* searchSpacerTwo;
 
     void setupLayouts();
+
+    bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 #endif // SEARCHMANAGER_H

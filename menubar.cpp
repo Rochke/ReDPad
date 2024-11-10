@@ -45,9 +45,9 @@ void MenuBar::setupMenuBar() {
     edit->addSeparator();
     //To-Do :
     find = edit->addAction("&Find");
-    //find->setEnabled(false);
+    find->setShortcut(QKeySequence("Ctrl+F"));
     goTo = edit->addAction("&Go To");
-    //goTo->setEnabled(false);
+    goTo->setEnabled(false);
     edit->addSeparator();
     markAll = edit->addAction("&Mark All");
     markAll->setShortcut(QKeySequence::SelectAll);
