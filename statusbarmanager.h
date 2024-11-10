@@ -26,6 +26,7 @@ public:
     QLabel *zoomDisplay;
 public slots:
     void updateCount();
+    void updateTotalCount();
 private:
     MainWindow *passedMainWindow;
     QTextEdit *textDisplay;

@@ -9,6 +9,64 @@ SearchManager::SearchManager(QWidget *parent, MainWindow *passedMainWindow) : pa
     createFind();
 }
 
+void SearchManager::goTo() {
+    if(goToLineEdit->displayText().toInt() > passedMainWindow->totalLineCount) {
+        QMessageBox::warning(this, "Error", "No lines past " + QString::number(passedMainWindow->totalLineCount));
+        return;
+    }
+    goToWindow->close();
+
+    QTextCursor cursor = passedMainWindow->getTextDisplay()->textCursor();
+    cursor.setPosition(passedMainWindow->getTextDisplay()->document()->findBlockByNumber(goToLineEdit->displayText().toInt() - 1).position());
+    passedMainWindow->getTextDisplay()->setTextCursor(cursor);
+}
+
+void SearchManager::openGoToWindow() {
+    goToWindow = new QDialog(this);
+    goToWindow->setWindowTitle("Go To");
+    goToWindow->setStyleSheet("background-color: #3a3a3a");
+
+    QLabel *label = new QLabel("Line :", goToWindow);
+    goToLineEdit = new GoToLineEdit(this, goToWindow);
+    QPushButton *okButton = new QPushButton("Ok", goToWindow);
+
+    QVBoxLayout *outerLayout = new QVBoxLayout;
+    QHBoxLayout *firstInnerLayout = new QHBoxLayout;
+    QHBoxLayout *secondInnerLayout = new QHBoxLayout;
+
+    firstInnerLayout->addWidget(label);
+    firstInnerLayout->addWidget(goToLineEdit);
+
+    secondInnerLayout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
+    secondInnerLayout->addWidget(okButton);
+
+    label->setStyleSheet("QLabel { color: white; }");
+    goToLineEdit->setStyleSheet("QLineEdit:focus { border: none white; outline: none; }");
+    goToLineEdit->setStyleSheet("QLineEdit { color: white; border: 1px solid white; outline: none; }");
+    okButton->setStyleSheet("QPushButton { color: white; }");
+
+    outerLayout->addLayout(firstInnerLayout);
+    outerLayout->addLayout(secondInnerLayout);
+
+    goToWindow->setLayout(outerLayout);
+
+    goToLineEdit->setMinimumWidth(175);
+    goToWindow->setFixedHeight(83);
+
+    goToWindow->setModal(true);
+
+    goToLineEdit->setText(QString::number(passedMainWindow->totalLineCount));
+    goToLineEdit->selectAll();
+
+    connect(okButton, &QPushButton::clicked, this, &SearchManager::goTo);
+
+    goToWindow->show();
+
+    connect(goToWindow, &QDialog::destroyed, this, [this]() {
+        goToWindow = nullptr;
+    });
+}
+
 void SearchManager::setupLayouts() {
     searchSpacerOne = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
     searchSpacerTwo = new QSpacerItem(10, 5, QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -52,6 +110,9 @@ void SearchManager::createFind() {
 
     setupLayouts();
 
+    connect(upButton, &QPushButton::clicked, this, &SearchManager::upMatches);
+    connect(downButton, &QPushButton::clicked, this, &SearchManager::downMatches);
+
     findShown = true;
     openFind(); //Closes Find (I know, confusing)
 
@@ -84,6 +145,7 @@ void SearchManager::openFind() {
         findShown = true;
     }
 
+    search(searchBar->displayText());
     searchBar->setFocus();
 }
 
@@ -99,12 +161,12 @@ void SearchManager::search(const QString query) {
     QString loweredText = text.toLower();
 
     //Search & Get Match Count
-    std::vector<int> matchPositions = KMPSearch(loweredText, query);
-    int matchCount = matchPositions.size();
+    matchPositions = KMPSearch(loweredText, query);
+    matchCount = matchPositions.size();
+    queryLength = query.length();
 
     //Update Match Count Display
     if (matchCount > 0) {
-        int currentMatch = 1;
         QTextCursor cursor = passedMainWindow->getTextDisplay()->textCursor();
         cursor.setPosition(matchPositions[0]);
         cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, query.length());
@@ -179,6 +241,30 @@ void SearchManager::updateMatches(const int currentMatch, const int matchCount) 
     resultLabel->setText(QString(" %1 of %2").arg(currentMatch).arg(matchCount));
 }
 
+void SearchManager::upMatches() {
+    if (matchCount > 0) {
+        QTextCursor cursor = passedMainWindow->getTextDisplay()->textCursor();
+        currentMatch = (currentMatch == 1) ? matchCount : currentMatch - 1;
+        cursor.setPosition(matchPositions[currentMatch - 1]);
+        cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, queryLength);
+        passedMainWindow->getTextDisplay()->setTextCursor(cursor);
+    }
+    updateMatches(currentMatch, matchCount);
+    passedMainWindow->getTextDisplay()->setFocus();
+}
+
+void SearchManager::downMatches() {
+    if (matchCount > 0) {
+        QTextCursor cursor = passedMainWindow->getTextDisplay()->textCursor();
+        currentMatch = (currentMatch == matchCount) ? 1 : currentMatch + 1;
+        cursor.setPosition(matchPositions[currentMatch - 1]);
+        cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, queryLength);
+        passedMainWindow->getTextDisplay()->setTextCursor(cursor);
+    }
+    updateMatches(currentMatch, matchCount);
+    passedMainWindow->getTextDisplay()->setFocus();
+}
+
 bool SearchManager::eventFilter(QObject *watched, QEvent *event) {
     if (watched == searchBar) {
         if (event->type() == QEvent::KeyPress) {
@@ -189,9 +275,15 @@ bool SearchManager::eventFilter(QObject *watched, QEvent *event) {
             }
 
             if(keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
-                qDebug() << "Enter Pressed";
                 QString query = searchBar->text();
-                search(query);
+                QString loweredQuery = query.toLower();
+                search(loweredQuery);
+                currentMatch = 1;
+                return true;
+            }
+
+            if(keyEvent->key() == Qt::Key_Escape) {
+                openFind();
                 return true;
             }
         }

@@ -51,6 +51,18 @@ void StatusBarManager::updateCount() {
     countLabel->setText(QString("Line %1, Column %2").arg(passedMainWindow->lineCount).arg(passedMainWindow->charCount));
 }
 
+void StatusBarManager::updateTotalCount() {
+    passedMainWindow->totalLineCount = 1; // Start with the first line
+    QString text = textDisplay->toPlainText();
+
+    // Count the newlines in the entire text
+    for(int i = 0; i < text.length(); i++) {
+        if(text[i] == '\n') {
+            passedMainWindow->totalLineCount++;
+        }
+    }
+}
+
 void StatusBarManager::zoomIn() {
     TextDisplay* textDisplay = passedMainWindow->getTextDisplay();
     QFont font = textDisplay->font();

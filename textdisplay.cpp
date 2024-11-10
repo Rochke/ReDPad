@@ -79,6 +79,7 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
         undoStack->push(command);
 
         passedMainWindow->statusBarManager->updateCount();
+        passedMainWindow->statusBarManager->updateTotalCount();
     //New File
     } else if (event->key() == Qt::Key_N && (event->modifiers() == Qt::ControlModifier)) {
         passedMainWindow->fileManager->newClicked(passedMainWindow->fileName, textDisplay, this);
@@ -110,6 +111,7 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
             undoStack->push(command);
 
             passedMainWindow->statusBarManager->updateCount();
+            passedMainWindow->statusBarManager->updateTotalCount();
         }
         else {
             QTextEdit::keyPressEvent(event);

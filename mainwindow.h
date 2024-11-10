@@ -43,6 +43,7 @@ public:
     QString fileName;
     uint64_t lineCount;
     uint64_t charCount;
+    uint64_t totalLineCount;
 
     QVBoxLayout *mainLayout;
 

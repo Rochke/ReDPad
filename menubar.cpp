@@ -47,7 +47,7 @@ void MenuBar::setupMenuBar() {
     find = edit->addAction("&Find");
     find->setShortcut(QKeySequence("Ctrl+F"));
     goTo = edit->addAction("&Go To");
-    goTo->setEnabled(false);
+    goTo->setShortcut(QKeySequence("Ctrl+G"));
     edit->addSeparator();
     markAll = edit->addAction("&Mark All");
     markAll->setShortcut(QKeySequence::SelectAll);
@@ -82,6 +82,7 @@ void MenuBar::connectMenuBar() {
         }
         passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, passedMainWindow->getTextDisplay());
         passedMainWindow->statusBarManager->updateCount();
+        passedMainWindow->statusBarManager->updateTotalCount();
     });
     connect(redo, &QAction::triggered, this, [this]() {
         if (undoStack->canRedo()) {
@@ -89,6 +90,7 @@ void MenuBar::connectMenuBar() {
         }
         passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, passedMainWindow->getTextDisplay());
         passedMainWindow->statusBarManager->updateCount();
+        passedMainWindow->statusBarManager->updateTotalCount();
     });
     connect(cut, &QAction::triggered, this, [this]() {
         QTextCursor cursor = passedMainWindow->getTextDisplay()->textCursor();
@@ -101,6 +103,7 @@ void MenuBar::connectMenuBar() {
         undoStack->push(command);
         passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, passedMainWindow->getTextDisplay());
         passedMainWindow->statusBarManager->updateCount();
+        passedMainWindow->statusBarManager->updateTotalCount();
     });
     connect(copy, &QAction::triggered, this, [this]() {
         passedMainWindow->getTextDisplay()->pressCtrlC();
@@ -114,13 +117,18 @@ void MenuBar::connectMenuBar() {
         undoStack->push(command);
         passedMainWindow->fileManager->updateWindowName(passedMainWindow->fileName, passedMainWindow->getTextDisplay());
         passedMainWindow->statusBarManager->updateCount();
+        passedMainWindow->statusBarManager->updateTotalCount();
     });
     connect(find, &QAction::triggered, this, [this]() {
         passedMainWindow->searchManager->openFind();
     });
+    connect(goTo, &QAction::triggered, this, [this]() {
+        passedMainWindow->searchManager->openGoToWindow();
+    });
     connect(markAll, &QAction::triggered, this, [this]() {
         passedMainWindow->getTextDisplay()->pressCtrlA();
         passedMainWindow->statusBarManager->updateCount();
+        passedMainWindow->statusBarManager->updateTotalCount();
     });
     //Enable/Disable Actions
     connect(QApplication::clipboard(), &QClipboard::changed, this, [this]() {
