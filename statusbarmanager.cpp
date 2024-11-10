@@ -26,10 +26,10 @@ void StatusBarManager::setupStatusBar() {
     passedMainWindow->mainStatusBar->setContentsMargins(3, 3, 3, 3);
     passedMainWindow->mainStatusBar->setSizeGripEnabled(false);
     passedMainWindow->mainStatusBar->setStyleSheet(
-        "QLabel { color: lightgrey; }"
-        "QStatusBar::item { border: none; }"
-        "QStatusBar { spacing: 5px; }"
-        );
+        "QLabel { color: lightgrey; background-color: #323232; }"
+        "QStatusBar::item { border: none; background-color: #323232; }"
+        "QStatusBar { spacing: 5px; background-color: #323232; color: lightgrey; border: none; }"
+    );
 
     setupCount();
     setupZoom();

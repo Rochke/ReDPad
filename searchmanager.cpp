@@ -176,7 +176,7 @@ std::vector<int> SearchManager::buildLPS(const QString query) {
 }
 
 void SearchManager::updateMatches(const int currentMatch, const int matchCount) {
-    resultLabel->setText(QString("%1 of %2").arg(currentMatch).arg(matchCount));
+    resultLabel->setText(QString(" %1 of %2").arg(currentMatch).arg(matchCount));
 }
 
 bool SearchManager::eventFilter(QObject *watched, QEvent *event) {
