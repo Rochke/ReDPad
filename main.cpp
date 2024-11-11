@@ -1,8 +1,8 @@
-/*TO-DO :
+/*
+ * TO-DO :
  * Line Counter On The Left
  * Settings Menu
  * Saving Settings (Including Of Specific Files, Zoom, Window Size, etc.)
- * Add Color To QMenuBar & QAction's
 */
 
 #include "mainwindow.h"
