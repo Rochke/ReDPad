@@ -103,9 +103,15 @@ void FileManager::checkIfSaved(QString &fileName, QTextEdit *textDisplay, QWidge
         filecheck.close();
     }
     if(!textDisplay->toPlainText().isEmpty() && !saved) {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(  parent, "Save", "Do you wish to save your unfinished changes?",
-                                        QMessageBox::Yes|QMessageBox::No);
+        QMessageBox msgBox(parent);
+        msgBox.setWindowTitle("Save");
+        msgBox.setText("Do you wish to save your unfinished changes?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setIcon(QMessageBox::Question);
+
+        msgBox.setStyleSheet(" QLabel { color: white; } "
+                             " QPushButton { color: white; } ");
+        QMessageBox::StandardButton reply = static_cast<QMessageBox::StandardButton>(msgBox.exec());
         if(reply == QMessageBox::Yes) {
             saveClicked(fileName, textDisplay, parent);
         }
