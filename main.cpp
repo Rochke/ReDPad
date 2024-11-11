@@ -1,4 +1,9 @@
 /*
+ *  Welcome To The ReDPad Source Code
+ *  V1.1.0
+ *  Made By : Rochke (GitHub)
+ *  Date: 11/11/2024 (EU)
+ *
  * TO-DO :
  * Line Counter On The Left
  * Settings Menu
