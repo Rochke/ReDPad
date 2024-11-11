@@ -93,19 +93,20 @@ void SearchManager::createFind() {
     upButton->setFixedSize(20, 20);
     downButton->setFixedSize(20, 20);
 
-    upButton->setStyleSheet("QPushButton { font-size: 10px }");
-    downButton->setStyleSheet("QPushButton { font-size: 10px }");
+    resultLabel->setStyleSheet("QLabel { color: white; } ");
+    findLabel->setStyleSheet("QLabel { color: white; } ");
+    upButton->setStyleSheet("QPushButton { font-size: 10px; color: white; }");
+    downButton->setStyleSheet("QPushButton { font-size: 10px; color: white; }");
     searchBar->setStyleSheet(
         "QLineEdit { "
-        "  border: 1px solid white; "
-        "  outline: none; "
-        "  border-radius: 8px; "
-        "  background-color: transparent; "
-        "} "
+        " color: white; "
+        " border: 1px solid white; "
+        " outline: none; "
+        " border-radius: 8px; "
+        " background-color: transparent; } "
         "QLineEdit:focus { "
         "  border: 1px solid white; "
-        "  outline: none; "
-        "}"
+        "  outline: none; } "
         );
 
     setupLayouts();
