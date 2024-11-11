@@ -29,6 +29,7 @@ void SearchManager::openGoToWindow() {
     QLabel *label = new QLabel("Line :", goToWindow);
     goToLineEdit = new GoToLineEdit(this, goToWindow);
     QPushButton *okButton = new QPushButton("Ok", goToWindow);
+    okButton->setFixedSize(60, 30);
 
     QVBoxLayout *outerLayout = new QVBoxLayout;
     QHBoxLayout *firstInnerLayout = new QHBoxLayout;
@@ -43,15 +44,17 @@ void SearchManager::openGoToWindow() {
     label->setStyleSheet("QLabel { color: white; }");
     goToLineEdit->setStyleSheet("QLineEdit:focus { border: none white; outline: none; }");
     goToLineEdit->setStyleSheet("QLineEdit { color: white; border: 1px solid white; outline: none; }");
-    okButton->setStyleSheet("QPushButton { color: white; }");
+    okButton->setStyleSheet(
+        "QPushButton { color: white; border: 1px solid white; outline: none; border-radius: 5px; }"
+        "QPushButton:focus { outline: 1px solid white; border: none; }"
+        );
 
     outerLayout->addLayout(firstInnerLayout);
     outerLayout->addLayout(secondInnerLayout);
 
     goToWindow->setLayout(outerLayout);
 
-    goToLineEdit->setMinimumWidth(175);
-    goToWindow->setFixedHeight(83);
+    goToWindow->setFixedSize(150, 85);
 
     goToWindow->setModal(true);
 
