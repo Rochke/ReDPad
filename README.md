@@ -18,6 +18,8 @@ as well as styling changes and Windows 10 Bug Fixes.
 - NEW : Find Words Or Phrases: Find the missing piece with the new find feature
 - NEW : Go To Your Favourite Line: Go To whichever line you need in your document
 
+  ![Missing Image](https://i.imgur.com/Ot45iL9.png)
+
 ## Upcoming Features
 
 - Settings
