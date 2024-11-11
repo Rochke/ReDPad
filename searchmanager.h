@@ -26,6 +26,10 @@ public:
     void openFind();
     void search(const QString = "");
     void goTo();
+    void upMatches();
+    void downMatches();
+
+    bool findShown = false;
 
     QHBoxLayout *searchLayout;
     QVBoxLayout *searchButtonLayout;
@@ -39,7 +43,6 @@ private:
     QLabel *findLabel;
     QLabel *resultLabel;
 
-    bool findShown = false;
     int currentMatch = 1;
     int matchCount = 0;
     int queryLength = 0;
@@ -51,8 +54,6 @@ private:
     void createFind();
     void setupLayouts();
     void updateMatches(int, int);
-    void upMatches();
-    void downMatches();
 
     std::vector<int> buildLPS(const QString);
     std::vector<int> KMPSearch(const QString content, const QString query);

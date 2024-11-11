@@ -98,6 +98,14 @@ void TextDisplay::keyPressEvent(QKeyEvent *event) {
     //Tab
     } else if (event->key() == Qt::Key_Tab) {
         cursor.insertText(QString("    "));
+    } else if (event->key() == Qt::Key_Up) {
+        if(passedMainWindow->searchManager->findShown) {
+            passedMainWindow->searchManager->upMatches();
+        }
+    } else if (event->key() == Qt::Key_Down) {
+        if(passedMainWindow->searchManager->findShown) {
+            passedMainWindow->searchManager->downMatches();
+        }
     }
     //All Other Text
     else {

@@ -287,6 +287,14 @@ bool SearchManager::eventFilter(QObject *watched, QEvent *event) {
                 openFind();
                 return true;
             }
+
+            if(keyEvent->key() == Qt::Key_Up) {
+                upMatches();
+            }
+
+            if(keyEvent->key() == Qt::Key_Down) {
+                downMatches();
+            }
         }
     }
     return QObject::eventFilter(watched, event);
