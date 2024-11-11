@@ -9,8 +9,9 @@ void MenuBar::setupMenuBar() {
     menubar->setStyleSheet("QMenuBar {"
                            "background-color: #3a3a3a; "
                            "color: lightgrey; }"
+                           "QMenuBar::item:selected { background-color: #2a2a2a } "
                            "QMenu { color: white; }"
-                           "QMenu::item:selected { background-color: #2a2a2a; }"
+                           "QMenu::item:selected { background-color: #2a2a2a; } "
                            "QMenu::item:disabled { color: grey; } ");
     QMenu *file = menubar->addMenu("&File");
     QMenu *edit = menubar->addMenu("&Edit");
