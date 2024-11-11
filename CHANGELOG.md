@@ -16,8 +16,6 @@
 - Windows 10 Color Difference Fix
 - Added build Folder To .gitignore
 
-# Changelog
-
 ## V1.0.1
 
 ### Bug Fixes
