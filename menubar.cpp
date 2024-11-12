@@ -7,7 +7,7 @@ MenuBar::MenuBar(QUndoStack *undoStack, MainWindow *passedMainWindow) : undoStac
 void MenuBar::setupMenuBar() {
     menubar = new QMenuBar(passedMainWindow);
     menubar->setStyleSheet("QMenuBar {"
-                           "background-color: #3a3a3a; }"
+                           "background-color: #3a3a3a;"
                            "color: lightgrey; }"
                            "QMenuBar::item { background-color: #3a3a3a; }"
                            "QMenuBar::item:selected { background-color: #2a2a2a; }"
