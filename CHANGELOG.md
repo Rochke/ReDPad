@@ -1,5 +1,11 @@
 # Changelog
 
+## V1.1.1
+
+### Bug Fixes
+
+- Fixed Windows 10 QMenuBar Color
+
 ## V1.1.0
 
 ### Major Features
